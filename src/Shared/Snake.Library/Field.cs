@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using Library.Shapes;
+using Library.Shapes.Lines;
 using static System.Console;
 using static Library.Helpers.StaticSettings;
 
@@ -39,8 +40,16 @@ namespace Library
             
             var snake = StartingSnake();
             result.Snake = snake;
-            result.Snake.Draw();
+
             snake.Draw();
+            Thread.Sleep(500);
+            snake.Move();
+            Thread.Sleep(500);
+            snake.Move();
+            Thread.Sleep(500);
+            snake.Move();
+            Thread.Sleep(500);
+            snake.Move();
 
 
             return result;

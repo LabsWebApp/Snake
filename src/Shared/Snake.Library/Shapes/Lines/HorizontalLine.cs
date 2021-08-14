@@ -1,4 +1,4 @@
-﻿namespace Library.Shapes
+﻿namespace Library.Shapes.Lines
 {
     public class HorizontalLine : Shape
     {

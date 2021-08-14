@@ -41,5 +41,10 @@ namespace Library.Shapes
             }
         }
 
+        public void Clear()
+        {
+            Symbol = ' ';
+            Draw();
+        }
     }
 }
