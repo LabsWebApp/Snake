@@ -21,5 +21,25 @@ namespace Library.Shapes
             SetCursorPosition(X, Y);
             Write(Symbol);
         }
+
+        public void Move(int offset, Direction direction)
+        {
+            switch (direction)
+            {
+                case Direction.Right:
+                    X += offset;
+                    break;
+                case Direction.Left:
+                    X -= offset;
+                    break;
+                case Direction.Down:
+                    Y += offset;
+                    break;
+                case Direction.Up:
+                    Y -= offset;
+                    break;
+            }
+        }
+
     }
 }
