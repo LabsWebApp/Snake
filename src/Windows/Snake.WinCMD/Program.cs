@@ -1,4 +1,5 @@
 ﻿using System;
+using Library;
 using static System.Console;
 using Library.Shapes;
 
@@ -8,27 +9,17 @@ namespace WinCMD
     {
         static void Main()
         {
-            WriteLine("Hello World!");
+            void SetWin(int x, int y)
+            {
+                SetWindowSize(x, y);
+                SetBufferSize(x, y);
+            }
+
+            Field.SetField(SetWin);
             ReadKey();
-            Clear();
-            SetWindowSize(80,25);
-            SetBufferSize(80,25);
-            var p1 = new Point(5, 6, '1');
-            var p2 = new Point(10, 17, '2');
-
-            p1.Draw();
-            p2.Draw();
-
+            Field.SetField(SetWin, 0,0);
             ReadKey();
-
-            var p3 = p1;
-
-            p3.Symbol = '3';
-            p1.X = 20;
-
-            p1.Draw();
-            p3.Draw();
-
+            Field.SetField(SetWin, 100000,100000);
             ReadKey();
         }
     }
