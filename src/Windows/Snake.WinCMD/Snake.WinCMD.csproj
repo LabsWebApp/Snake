@@ -8,4 +8,8 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Snake.Library\Snake.Library.csproj" />
+  </ItemGroup>
+
 </Project>
