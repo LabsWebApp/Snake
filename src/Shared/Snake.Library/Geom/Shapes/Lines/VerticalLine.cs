@@ -1,6 +1,8 @@
-﻿namespace Library.Shapes.Lines
+﻿using Library.Geom.Base;
+
+namespace Library.Geom.Shapes.Lines
 {
-    public class VerticalLine : Shape
+    public class VerticalLine : Line
     {
         public VerticalLine(int yUp, int yDown, int x, char sym)
         {

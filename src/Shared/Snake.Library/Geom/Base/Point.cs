@@ -1,9 +1,13 @@
 ﻿using static System.Console;
 
-namespace Library.Shapes
+namespace Library.Geom.Base
 {
     public struct Point
     {
+        public int X;
+        public int Y;
+        public char Symbol;
+
         public Point(int x, int y, char symbol)
         {
             Symbol = symbol;
@@ -11,10 +15,11 @@ namespace Library.Shapes
             Y = y;
         }
 
-        public int X { get; set; }
-        public int Y { get; set; }
-
-        public char Symbol { get; set; }
+        public void Clear()
+        {
+            Symbol = ' ';
+            Draw();
+        }
 
         public void Draw()
         {
@@ -41,10 +46,7 @@ namespace Library.Shapes
             }
         }
 
-        public void Clear()
-        {
-            Symbol = ' ';
-            Draw();
-        }
+        public bool IsHit(Point p) => p.X == X && p.Y == Y;
+        public bool IsHit(int x, int y) => x == X && y == Y;
     }
 }

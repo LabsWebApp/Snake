@@ -1,16 +1,18 @@
 ﻿using System.Linq;
+using Library.Geom.Base;
 
-namespace Library.Shapes
+namespace Library.Geom.Shapes
 {
     public class Snake : Shape
     {
-        private Direction _direction;
+        public Direction Direction { set; private get; }
+
         public Snake(
             Point tail, 
             int length, 
             Direction direction)
         {
-            _direction = direction;
+            Direction = direction;
             for (int i = 0; i < length; i++)
             {
                 Point p = tail;
@@ -32,7 +34,7 @@ namespace Library.Shapes
         {
             Point head = PList.Last();
             Point next = head;
-            next.Move(1, _direction);
+            next.Move(1, Direction);
             return next;
         }
     }

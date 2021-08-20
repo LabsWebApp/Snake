@@ -1,4 +1,4 @@
-﻿namespace Library.Shapes
+﻿namespace Library.Geom.Base
 {
     public enum Direction
     {

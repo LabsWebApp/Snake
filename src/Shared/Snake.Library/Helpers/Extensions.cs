@@ -1,0 +1,15 @@
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Library.Geom.Base;
+
+namespace Library.Helpers
+{
+    public static class Extensions
+    {
+        public static bool PointIsHit(this IEnumerable<Point> list, int x, int y) => 
+            !Parallel.ForEach(list, (p, loop) =>
+            {
+                if (p.IsHit(x, y)) loop.Break();
+            }).IsCompleted;
+    }
+}

@@ -1,6 +1,8 @@
-﻿namespace Library.Shapes.Lines
+﻿using Library.Geom.Base;
+
+namespace Library.Geom.Shapes.Lines
 {
-    public class HorizontalLine : Shape
+    public class HorizontalLine : Line
     {
         public HorizontalLine(int xLeft, int xRight, int y, char sym)
         {

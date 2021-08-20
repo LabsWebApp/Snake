@@ -1,7 +1,7 @@
-﻿using System;
-using Library;
+﻿using Library;
+using Library.Geom.Base;
 using static System.Console;
-using Library.Shapes;
+using static Library.Helpers.Config;
 
 namespace WinCMD
 {
@@ -15,7 +15,7 @@ namespace WinCMD
                 SetBufferSize(x, y);
             }
 
-            Field.SetField(SetWin);
+            Field.SetField(SetWin, null, new Size(150,25), new SimplePoint(1, 10));
             ReadKey();
         }
     }
