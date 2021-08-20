@@ -20,10 +20,10 @@ namespace Library.Helpers
             RightFrameChar = LeftFrameChar;
 
         public static readonly SimplePoint DefaultPosition = new(1, 1);
-        public static readonly Size DefaultFieldSize = new(80, 30);
+        public static readonly Size DefaultFieldSize = new(80, 20);
         public static readonly Size MinFieldSize = new(22, 12);
 
-        public const int StartingSpeed = 333;
+        public const int StartingSpeed = 200;
 
         public static Snake StartingSnake(SimplePoint p) =>
             new (new Point(p.X + 4, p.Y + 3, SnakeChar), 4, Direction.Right);

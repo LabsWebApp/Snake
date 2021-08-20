@@ -1,38 +1,40 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using Library.Geom;
-using Library.Geom.Base;
-using Library.Geom.Shapes;
-using Library.Geom.Shapes.Lines;
 using static System.Console;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using static Library.Helpers.Config;
+using Library.Geom.Base;
+using Library.Geom.Shapes.Lines;
 
-namespace Library
+namespace Library.Geom
 {
     /// <summary>
     /// MEMENTO EXCEPTIO
     /// </summary>
-    public partial class Field : IDisposable
+    public class Field : IDisposable
     {
-        private readonly Snake Snake;
+        public SimplePoint Position { get; }
+        public Size EndPoint { get; }
 
-        private readonly List<Line> Border;
-
-        private Field(Size size, SimplePoint position)
+        private Field(SimplePoint position, Size size)
         {
             var p = position;
-            Border = new List<Line>
+            
+            var border = new List<Line>
             {
                 new HorizontalLine(p.X, size.EndOfWidth, p.Y, TopFrameChar),
                 new HorizontalLine(p.X, size.EndOfWidth, size.EndOfHeight, DownFrameChar),
                 new VerticalLine(p.Y + 1, size.EndOfHeight - 1, p.X, LeftFrameChar),
                 new VerticalLine(p.Y + 1, size.EndOfHeight - 1, size.EndOfWidth, RightFrameChar)
             };
-            Border.ForEach(line => line.Draw());
 
-            Snake = StartingSnake(p);
-        } 
+            CursorVisible = false;
+            border.ForEach(line => line.Draw());
+            Position = p;
+            EndPoint = size;
+        }
 
         public static Field SetField(
             Action<int, int>? setWindow = null,
@@ -69,61 +71,33 @@ namespace Library
             if (size.EndOfWidth >= winSize.EndOfWidth)
             {
                 p.X = 0;
-                size.EndOfWidth = winSize.EndOfWidth -1;
+                size.EndOfWidth = winSize.EndOfWidth - 1;
             }
-            else if(size.EndOfWidth + p.X>= winSize.EndOfWidth) p.X = winSize.EndOfWidth - size.EndOfWidth-1;
+            else if (size.EndOfWidth + p.X >= winSize.EndOfWidth) p.X = winSize.EndOfWidth - size.EndOfWidth - 1;
 
             if (size.EndOfHeight >= winSize.EndOfHeight)
             {
                 p.Y = 0;
-                size.EndOfHeight = winSize.EndOfHeight-1;
+                size.EndOfHeight = winSize.EndOfHeight - 1;
             }
-            else if (size.EndOfHeight + p.Y >= winSize.EndOfHeight) p.Y = winSize.EndOfHeight - size.EndOfHeight-1;
+            else if (size.EndOfHeight + p.Y >= winSize.EndOfHeight) p.Y = winSize.EndOfHeight - size.EndOfHeight - 1;
 
-            Clear();
-            CursorVisible = false;
             setWindow?.Invoke(winSize.EndOfWidth, winSize.EndOfHeight);
 
-            var result = new Field(size, p);
-            Run(result.Snake);
-            return result;
+            return new Field(p, size);
         }
 
-        private static void Run(Snake snake)
+        public void Dispose()
         {
-            ConsoleKeyInfo current = new();
-            for (;;)
-            {
-                if (KeyAvailable)
-                {
-                    var key = ReadKey(true);
-                    if (key == current)
-                    {
-                        Thread.Sleep(1);
-                        continue;
-                    }
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-                    current = key;
-                    switch (key.Key)
-                    {
-                        case ConsoleKey.Escape:
-                            return;
-                        case ConsoleKey.LeftArrow:
-                            snake.Direction = Direction.Left;
-                            break;
-                        case ConsoleKey.RightArrow:
-                            snake.Direction = Direction.Right;
-                            break;
-                        case ConsoleKey.UpArrow:
-                            snake.Direction = Direction.Up;
-                            break;
-                        case ConsoleKey.DownArrow:
-                            snake.Direction = Direction.Down;
-                            break;
-                    }
-                }
-                Thread.Sleep(StartingSpeed);
-                snake.Move();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                CursorVisible = true;
             }
         }
     }

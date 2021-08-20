@@ -15,7 +15,8 @@ namespace WinCMD
                 SetBufferSize(x, y);
             }
 
-            Field.SetField(SetWin, null, new Size(150,25), new SimplePoint(1, 10));
+            Game game = new(SetWin);
+            game.Play();
             ReadKey();
         }
     }

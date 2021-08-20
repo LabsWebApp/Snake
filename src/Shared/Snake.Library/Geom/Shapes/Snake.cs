@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Library.Geom.Base;
 
 namespace Library.Geom.Shapes
 {
-    public class Snake : Shape
+    public sealed class Snake : Shape
     {
-        public Direction Direction { set; private get; }
+        private Direction Direction;
 
         public Snake(
             Point tail, 
@@ -36,6 +37,38 @@ namespace Library.Geom.Shapes
             Point next = head;
             next.Move(1, Direction);
             return next;
+        }
+
+        public bool Eat(Point food)
+        {
+            var head = GetNextPoint();
+            if (head.IsHit(food))
+            {
+                food.Symbol = head.Symbol;
+                food.Draw();
+                PList.Add(food);
+                return true;
+            }
+            return false;
+        }
+
+        public void Turn(ConsoleKey key)
+        {
+            switch (key)
+            {
+                case ConsoleKey.LeftArrow:
+                    Direction = Direction.Left;
+                    break;
+                case ConsoleKey.RightArrow:
+                    Direction = Direction.Right;
+                    break;
+                case ConsoleKey.UpArrow:
+                    Direction = Direction.Up;
+                    break;
+                case ConsoleKey.DownArrow:
+                    Direction = Direction.Down;
+                    break;
+            }
         }
     }
 }

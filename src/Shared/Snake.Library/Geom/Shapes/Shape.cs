@@ -6,7 +6,7 @@ namespace Library.Geom.Shapes
 {
     public abstract class Shape : IEnumerable<Point>
     {
-        protected IList<Point> PList { get; set; }
+        public virtual IList<Point> PList { get; private set; }
         protected Shape() => PList = new List<Point>();
         public void Draw()
         {
