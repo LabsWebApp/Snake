@@ -1,4 +1,5 @@
-﻿using static System.Console;
+﻿using System;
+using static System.Console;
 
 namespace Library.Geom.Base
 {
@@ -26,6 +27,8 @@ namespace Library.Geom.Base
             SetCursorPosition(X, Y);
             Write(Symbol);
         }
+
+        public void Draw(ConsoleColor color) => SetResetColor.ForAction(color, Draw);
 
         public void Move(int offset, Direction direction)
         {

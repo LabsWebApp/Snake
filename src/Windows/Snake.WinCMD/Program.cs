@@ -1,7 +1,7 @@
-﻿using Library;
-using Library.Geom.Base;
+﻿using System;
+using Library;
 using static System.Console;
-using static Library.Helpers.Config;
+//using static Library.Helpers.Config;
 
 namespace WinCMD
 {
@@ -15,9 +15,18 @@ namespace WinCMD
                 SetBufferSize(x, y);
             }
 
-            Game game = new(SetWin);
-            game.Play();
-            ReadKey();
+            for (;;)
+            {
+                using (Game game = new(SetWin))
+                {
+                    game.Play();
+                }
+                WriteLine();
+                WriteLine("!!!! GAME OVER !!!!");
+                Write("\rДля запуска нажмите любую клавишу или ESC для выхода: ");
+                if (ReadKey(false).Key == ConsoleKey.Escape)
+                    break;
+            }
         }
     }
 }

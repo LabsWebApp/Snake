@@ -2,7 +2,7 @@
 
 namespace Library.Geom.Base
 {
-    public class Size
+    public struct Size
     {
         private int _width, _height;
 

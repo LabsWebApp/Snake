@@ -1,31 +1,40 @@
 ﻿using System;
 using System.Linq;
+using System.Threading;
 using Library.Geom.Base;
+using static Library.Helpers.Config;
 
 namespace Library.Geom.Shapes
 {
     public sealed class Snake : Shape
     {
-        private Direction Direction;
+        private Direction _direction;
+        private int _foodWeight = 0;
+        public Point Head => PList.Last();
 
         public Snake(
             Point tail, 
             int length, 
             Direction direction)
         {
-            Direction = direction;
+            _direction = direction;
             for (int i = 0; i < length; i++)
             {
                 Point p = tail;
-                p.Move(i, direction);
                 PList.Add(p);
+                p.Move(i, direction);
             }
         }
 
         public void Move()
         {
-            PList.First().Clear();
-            PList.RemoveAt(0);
+            if (_foodWeight == 0)
+            {
+                PList.First().Clear();
+                PList.RemoveAt(0);
+            }
+            else _foodWeight--;
+
             Point head = GetNextPoint();
             PList.Add(head);
 
@@ -33,9 +42,8 @@ namespace Library.Geom.Shapes
         }
         private Point GetNextPoint()
         {
-            Point head = PList.Last();
-            Point next = head;
-            next.Move(1, Direction);
+            Point next = Head;
+            next.Move(1, _direction);
             return next;
         }
 
@@ -44,9 +52,8 @@ namespace Library.Geom.Shapes
             var head = GetNextPoint();
             if (head.IsHit(food))
             {
-                food.Symbol = head.Symbol;
-                food.Draw();
-                PList.Add(food);
+                _foodWeight += FoodProvider.GetWeight(food);
+                Move();
                 return true;
             }
             return false;
@@ -57,18 +64,37 @@ namespace Library.Geom.Shapes
             switch (key)
             {
                 case ConsoleKey.LeftArrow:
-                    Direction = Direction.Left;
+                    _direction = Direction.Left;
                     break;
                 case ConsoleKey.RightArrow:
-                    Direction = Direction.Right;
+                    _direction = Direction.Right;
                     break;
                 case ConsoleKey.UpArrow:
-                    Direction = Direction.Up;
+                    _direction = Direction.Up;
                     break;
                 case ConsoleKey.DownArrow:
-                    Direction = Direction.Down;
+                    _direction = Direction.Down;
                     break;
             }
+        }
+
+        public bool IsHitTail()
+        {
+            var head = GetNextPoint();
+            for (int i = PList.Count - 1; i > -1; i--)
+            {
+                if (head.IsHit(PList[i]))
+                    return true;
+            }
+            return false;
+        }
+
+        public void Death()
+        {
+            var head = Head;
+            head.Symbol = DeathChar;
+            SetResetColor.ForAction(DeathColor, head.Draw);
+            Thread.Sleep(1000);
         }
     }
 }

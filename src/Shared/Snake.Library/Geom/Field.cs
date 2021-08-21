@@ -1,11 +1,9 @@
 ﻿using System;
 using static System.Console;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static Library.Helpers.Config;
 using Library.Geom.Base;
+using Library.Geom.Shapes;
 using Library.Geom.Shapes.Lines;
 
 namespace Library.Geom
@@ -13,16 +11,18 @@ namespace Library.Geom
     /// <summary>
     /// MEMENTO EXCEPTIO
     /// </summary>
-    public class Field : IDisposable
+    public class Field
     {
         public SimplePoint Position { get; }
         public Size EndPoint { get; }
 
+        public List<Shape> Border { get; } 
+
         private Field(SimplePoint position, Size size)
         {
             var p = position;
-            
-            var border = new List<Line>
+
+            Border = new List<Shape>
             {
                 new HorizontalLine(p.X, size.EndOfWidth, p.Y, TopFrameChar),
                 new HorizontalLine(p.X, size.EndOfWidth, size.EndOfHeight, DownFrameChar),
@@ -30,8 +30,7 @@ namespace Library.Geom
                 new VerticalLine(p.Y + 1, size.EndOfHeight - 1, size.EndOfWidth, RightFrameChar)
             };
 
-            CursorVisible = false;
-            border.ForEach(line => line.Draw());
+            Border.ForEach(line => line.Draw(BorderColor));
             Position = p;
             EndPoint = size;
         }
@@ -85,20 +84,6 @@ namespace Library.Geom
             setWindow?.Invoke(winSize.EndOfWidth, winSize.EndOfHeight);
 
             return new Field(p, size);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                CursorVisible = true;
-            }
         }
     }
 }
