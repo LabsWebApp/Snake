@@ -7,14 +7,19 @@ namespace Library.Geom.Shapes
 {
     public abstract class Shape : IEnumerable<Point>
     {
-        public virtual IList<Point> PList { get; }
-        protected Shape() => PList = new List<Point>();
-        public void Draw()
-        {
-            foreach (var point in PList) point.Draw();
-        }
+        public virtual List<Point> PList { get; init; } = new ();
 
-        public void Draw(ConsoleColor color) => SetResetColor.ForAction(color, Draw);
+        public virtual void Draw(ConsoleColor? color = null)
+        {
+            void MainDraw()
+            {
+                foreach (var point in PList) point.Draw();
+            };
+
+            if (color is not null)
+                SetResetColor.ForAction((ConsoleColor) color, MainDraw);
+            else MainDraw();
+        }
 
         public IEnumerator<Point> GetEnumerator() => PList.GetEnumerator();
         IEnumerator IEnumerable.GetEnumerator() => PList.GetEnumerator();

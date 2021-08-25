@@ -10,6 +10,8 @@ using Library.Geom.Shapes.Lines;
 using Library.Helpers;
 using static System.Console;
 using static Library.Helpers.Config;
+using Barrier = Library.Geom.Shapes.Lines.Barrier;
+
 // ReSharper disable InconsistentNaming
 
 namespace Library
@@ -47,9 +49,20 @@ namespace Library
             int x = (field.EndPoint.EndOfWidth - field.Position.X) / 2,
                 tail = (field.EndPoint.EndOfHeight - field.Position.Y) / 2,
                 y = field.Position.Y + tail / 2;
-            Shape barrier = new VerticalLine(y, y + tail, x, VerticalBarrierChar);
-            barriers.Add(barrier);
-            barrier.Draw(BarrierColor);
+            Barrier b1 = new (y, y + tail, x, false);
+            barriers.Add(b1);
+            b1.Draw();
+
+            x /= 2;
+            y += tail / 2;
+            Barrier b2 = new (x - 2, x + 2, y);
+            barriers.Add(b2);
+            b2.Draw();
+
+            x *= 3;
+            Barrier b3 = new (x - 2, x + 2, y);
+            barriers.Add(b3);
+            b3.Draw();
         }
 
         public void Play()
@@ -79,6 +92,7 @@ namespace Library
 
                 if (snake.Eat(food))
                 {
+                    Beep();
                     food = provider.Supply(Busy);
                     food.Draw(FoodColor);
                 }

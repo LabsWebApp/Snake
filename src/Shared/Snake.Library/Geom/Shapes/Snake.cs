@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using Library.Geom.Base;
+using static System.Console;
 using static Library.Helpers.Config;
 
 namespace Library.Geom.Shapes
@@ -94,6 +95,9 @@ namespace Library.Geom.Shapes
             var head = Head;
             head.Symbol = DeathChar;
             SetResetColor.ForAction(DeathColor, head.Draw);
+            Beep();
+            Beep();
+            Beep();
             Thread.Sleep(1000);
         }
     }

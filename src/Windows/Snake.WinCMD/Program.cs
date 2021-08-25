@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Threading;
 using Library;
+using Library.Geom.Base;
 using static System.Console;
 //using static Library.Helpers.Config;
 
@@ -15,7 +17,7 @@ namespace WinCMD
                 SetBufferSize(x, y);
             }
 
-            for (;;)
+            for (; ; )
             {
                 using (Game game = new(SetWin))
                 {
